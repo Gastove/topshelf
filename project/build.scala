@@ -23,7 +23,7 @@ object TopshelfBuild extends Build {
       scalaVersion := ScalaVersion,
       resolvers += Classpaths.typesafeReleases,
       libraryDependencies ++= Seq(
-        "postgresql" % "postgresql" % "9.1-901.jdbc4",
+        "org.postgresql" % "postgresql" % "9.3-1100-jdbc4",
         "org.squeryl" %% "squeryl" % "0.9.5-6",
         "c3p0" % "c3p0" % "0.9.1.2",
         "org.scalatra" %% "scalatra" % ScalatraVersion,
