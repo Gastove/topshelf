@@ -6,9 +6,9 @@ import org.squeryl.{Session, SessionFactory}
 
 trait InitializeDatabase {
 
-  val dbUser = ""
+  val dbUser = "gastove"
   val dbPassword = ""
-  val dbConnection = ""
+  val dbConnection = "jdbc:postgresql://localhost/topshelf"
 
   var cpds = new ComboPooledDataSource
 
@@ -24,7 +24,7 @@ trait InitializeDatabase {
 
     SessionFactory.concreteFactory = Some( () => connection )
 
-    def connection() {
+    def connection() = {
       Session.create(cpds.getConnection, new PostgreSqlAdapter)
     }
   }
