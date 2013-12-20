@@ -3,31 +3,15 @@ package com.gastove.topshelf.conf.schema
 import org.squeryl.PrimitiveTypeMode._
 import org.squeryl.Schema
 import org.squeryl.annotations.Column
-import java.util.Date
-import java.sql.Timestamp
+// import java.util.Date
+// import java.sql.Timestamp
+import org.squeryl.KeyedEntity
+import com.gastove.topshelf.models.{Spirit, Liquer}
 
-class Spirit(
-  val id: Long,
-  val name: String,
-  val spirit_type: String,
-  val quantity: Int,
-  val producer: Option[String]
-) {
-  def this() = this(0, "", "", 1, Some(""))
-}
-
-class Liquer(
-  val id: Long,
-  val name: String,
-  val quantity: Int
-  val tags: Option[String]
-) {
-  def this() = this(0, "", 1, Some(""))
-}
 
 object TheShelf extends Schema {
 
-  val spirits = table[Spirit]
-  val liquers = table[Liquer]
+  val spirits = table[Spirit]("spirits")
+  val liquers = table[Liquer]("liquers")
 
 }
