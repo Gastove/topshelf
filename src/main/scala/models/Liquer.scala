@@ -7,7 +7,6 @@ case class Liquer(
   val quantity: Int,
   val family: Option[String],
   val tags: Option[String]
-) extends KeyedEntity[Long] {
+) extends BaseEntity {
   def this() = this("", 1, Some(""), Some(""))
-  val id: Long = 0
 }

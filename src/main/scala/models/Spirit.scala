@@ -1,13 +1,12 @@
 package com.gastove.topshelf.models
 
-import org.squeryl.KeyedEntity
+import org.squeryl.annotations.Column
 
 case class Spirit(
   val name: String,
-  val spirit_type: String,
+  @Column("spirit_type") val spiritType: String,
   val quantity: Int,
   val producer: Option[String]
-) extends KeyedEntity[Long] {
+) extends BaseEntity {
   def this() = this("", "", 1, Some(""))
-  val id: Long = 0
 }
