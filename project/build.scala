@@ -26,6 +26,8 @@ object TopshelfBuild extends Build {
         "org.postgresql" % "postgresql" % "9.3-1100-jdbc4",
         "org.squeryl" %% "squeryl" % "0.9.5-6",
         "c3p0" % "c3p0" % "0.9.1.2",
+        "org.scalatra" %% "scalatra-json" % "2.2.1",
+        "org.json4s"   %% "json4s-jackson" % "3.2.4",
         "org.scalatra" %% "scalatra" % ScalatraVersion,
         "org.scalatra" %% "scalatra-scalate" % ScalatraVersion,
         "org.scalatra" %% "scalatra-specs2" % ScalatraVersion % "test",

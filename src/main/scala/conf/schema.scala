@@ -10,12 +10,12 @@ object TheShelf extends Schema {
   val liquers = table[Liquer]("liquers")
 
   on(spirits) (s => declare(
-    s.id is(named("spirit_id")),
+    s.id is(autoIncremented, named("spirit_id")),
     s.name is(indexed)
   ))
 
   on(liquers) (l => declare(
-    l.id is(named("liquer_id")),
+    l.id is(named("liquer_id"), autoIncremented),
     l.name is(indexed)
   ))
 
