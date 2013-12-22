@@ -1,4 +1,4 @@
-package com.gastove.topshelf
+package com.gastove.topshelf.servlets
 
 import org.scalatra._
 import scalate.ScalateSupport
@@ -19,11 +19,11 @@ trait TopshelfStack extends ScalatraServlet with ScalateSupport {
     engine
   }
   /* end wiring up the precompiled templates */
-  
+
   override protected def templateAttributes(implicit request: HttpServletRequest): mutable.Map[String, Any] = {
     super.templateAttributes ++ mutable.Map.empty // Add extra attributes here, they need bindings in the build file
   }
-  
+
 
   notFound {
     // remove content type in case it was set through an action
