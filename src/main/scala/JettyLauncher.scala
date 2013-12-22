@@ -10,7 +10,7 @@ object JettyLauncher {
 
     context setContextPath "/"
     context.setResourceBase("src/main/webapp")
-    context.addServlet(classOf[com.gastove.topshelf.TopShelfServlet], "/*")
+    context.addServlet(classOf[com.gastove.topshelf.servlets.TopShelfServlet], "/*")
     context.addServlet(classOf[DefaultServlet], "/")
 
     server.setHandler(context)

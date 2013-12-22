@@ -23,6 +23,7 @@ object TopshelfBuild extends Build {
       scalaVersion := ScalaVersion,
       resolvers += Classpaths.typesafeReleases,
       libraryDependencies ++= Seq(
+        "org.clapper" % "grizzled-slf4j_2.10" % "1.0.1",
         "org.postgresql" % "postgresql" % "9.3-1100-jdbc4",
         "org.squeryl" %% "squeryl" % "0.9.5-6",
         "c3p0" % "c3p0" % "0.9.1.2",
@@ -31,7 +32,7 @@ object TopshelfBuild extends Build {
         "org.json4s"   %% "json4s-jackson" % "3.2.4",
         "org.scalatra" %% "scalatra-scalate" % ScalatraVersion,
         "org.scalatra" %% "scalatra-specs2" % ScalatraVersion % "test",
-        "ch.qos.logback" % "logback-classic" % "1.0.6" % "runtime",
+        "ch.qos.logback" % "logback-classic" % "1.0.11" % "runtime",
         "org.eclipse.jetty" % "jetty-webapp" % "8.1.8.v20121106" % "compile;container",
         "org.eclipse.jetty.orbit" % "javax.servlet" % "3.0.0.v201112011016" % "compile;container;provided;test" artifacts (Artifact("javax.servlet", "jar", "jar"))
       ),
