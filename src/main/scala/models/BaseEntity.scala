@@ -22,7 +22,7 @@ abstract class DAO[T <: KeyedEntity[Long]](theTable: Table[T])
   def table = theTable
 
   def getAll[T <: KeyedEntity[Long]]() = {
-    from(table)( mod => select(mod)).map{row => ct.runtimeClass(row)}.toList
+    from(table)( mod => select(mod)).toList
   }
   def getByID(id: String) = {
     from(table)( mod => where(mod.id === id.toInt) select(mod)).toList
