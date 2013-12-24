@@ -11,29 +11,33 @@ import grizzled.slf4j.Logging
 
 class SpiritsServlet extends TopshelfStack
     with DatabaseSessionSupport with JacksonJsonSupport
-    with Logging with ModelMethods {
+    with Logging {
 
   protected implicit val jsonFormats: Formats = DefaultFormats
-  val spiritsTable = TheShelf.spirits
+  // val spiritsTable = TheShelf.spirits
 
   before() {
     contentType = formats("json")
   }
 
   get("/all") {
-    getAll(spiritsTable)
+    SpiritDAO.getAll()
   }
 
   get("/all/:id") {
-    getByID(spiritsTable, params("id"))
+    SpiritDAO.getByID(params("id"))
+  }
+
+  get("/test") {
+    info("Check check check")
   }
 
   get("/insert-test-data") {
-    spiritsTable.insert(List(
-      Spirit("Booker's", "whiskey", 1, None),
-      Spirit("Hendricks", "gin", 2, Some("Hendricks")),
-      Spirit("Appleton Estate", "rum", 1, None)
-    ))
+    // spiritsTable.insert(List(
+    //   Spirit("Booker's", "whiskey", 1, None),
+    //   Spirit("Hendricks", "gin", 2, Some("Hendricks")),
+    //   Spirit("Appleton Estate", "rum", 1, None)
+    // ))
   }
 
 }

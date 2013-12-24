@@ -28,6 +28,10 @@ class TopShelfServlet extends TopshelfStack
     </html>
   }
 
+  get("/test") {
+  //  TheShelf.findTablesFor(Spirit).map{t => info(t)}
+  }
+
   get("/db-init/") {
       TheShelf.create
   }

@@ -1,6 +1,7 @@
 package com.gastove.topshelf.models
 
 import org.squeryl.annotations.Column
+import com.gastove.topshelf.conf.schema.TheShelf
 
 case class Spirit(
   val name: String,
@@ -9,4 +10,7 @@ case class Spirit(
   val producer: Option[String]
 ) extends BaseEntity {
   def this() = this("", "", 1, Some(""))
+  // val table =
 }
+
+object SpiritDAO extends DAO[Spirit](TheShelf.spirits)
