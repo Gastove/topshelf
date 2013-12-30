@@ -5,26 +5,40 @@ import System.currentTimeMillis
 import java.sql.Timestamp
 import org.squeryl.PrimitiveTypeMode._
 import org.squeryl._
-import grizzled.slf4j.Logging
-import com.gastove.topshelf.conf.schema.TheShelf
-import scala.reflect.runtime.universe.TypeTag
+// import grizzled.slf4j.Logging
+// import com.gastove.topshelf.conf.schema.TheShelf
+import scala.reflect.runtime.{ universe => ru }
 import scala.reflect.ClassTag
 
-abstract class BaseEntity[T] extends KeyedEntity[Long] {
+abstract class BaseEntity extends KeyedEntity[Long] {
   val id: Long = 0
   val created_on: Timestamp = new Timestamp(currentTimeMillis)
   val updated_on: Timestamp = new Timestamp(currentTimeMillis)
 }
 
-abstract class DAO[T <: KeyedEntity[Long]](theTable: Table[T])
-  (implicit tt: TypeTag[T], ct: ClassTag[T]) {
+// abstract class DAO[T <: KeyedEntity[Long]](theTable: Table[T])
+abstract class DAO[T <: BaseEntity](theTable: Table[T])
+  (implicit tt: ru.TypeTag[T], ct: ClassTag[T]) {
 
   def table = theTable
+
+  def check() = {
+    val m = ru.runtimeMirror(getClass.getClassLoader)
+    val reflectedClass = ru.typeOf[T].typeSymbol.asClass
+    val ctor = tt.tpe.declaration(ru.nme.CONSTRUCTOR).asMethod
+    val cm = m.reflectClass(reflectedClass)
+    val ctorm = cm.reflectConstructor(ctor)
+    ctorm("Booker's", "whiskey", 1, None)
+  }
 
   def getAll[T <: KeyedEntity[Long]]() = {
     from(table)( mod => select(mod)).toList
   }
   def getByID(id: String) = {
     from(table)( mod => where(mod.id === id.toInt) select(mod)).toList
+  }
+
+  def deleteByID(id: String) = {
+    table.deleteWhere(row => row.id === id.toInt)
   }
 }

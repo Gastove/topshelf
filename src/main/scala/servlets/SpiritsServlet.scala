@@ -9,35 +9,28 @@ import org.json4s.{DefaultFormats, Formats}
 import org.squeryl.PrimitiveTypeMode._
 import grizzled.slf4j.Logging
 
-class SpiritsServlet extends TopshelfStack
-    with DatabaseSessionSupport with JacksonJsonSupport
-    with Logging {
-
-  protected implicit val jsonFormats: Formats = DefaultFormats
-  // val spiritsTable = TheShelf.spirits
-
-  before() {
-    contentType = formats("json")
-  }
-
-  get("/all") {
-    SpiritDAO.getAll()
-  }
+// class SpiritsServlet extends TopshelfStack
+class SpiritsServlet extends CRUDRoutes[Spirit](SpiritDAO) {
 
   get("/all/:id") {
     SpiritDAO.getByID(params("id"))
   }
 
+  get("/delete/:id") {
+    SpiritDAO.deleteByID(params("id"))
+  }
+
   get("/test") {
-    info("Check check check")
+    info(SpiritDAO.check)
+    SpiritDAO.check
   }
 
   get("/insert-test-data") {
-    // spiritsTable.insert(List(
-    //   Spirit("Booker's", "whiskey", 1, None),
-    //   Spirit("Hendricks", "gin", 2, Some("Hendricks")),
-    //   Spirit("Appleton Estate", "rum", 1, None)
-    // ))
+    SpiritDAO.table.insert(List(
+      Spirit("Booker's", "whiskey", 1, None),
+      Spirit("Hendricks", "gin", 2, Some("Hendricks")),
+      Spirit("Appleton Estate", "rum", 1, None)
+    ))
   }
 
 }
