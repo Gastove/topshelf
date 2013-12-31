@@ -5,8 +5,6 @@ import System.currentTimeMillis
 import java.sql.Timestamp
 import org.squeryl.PrimitiveTypeMode._
 import org.squeryl._
-// import grizzled.slf4j.Logging
-// import com.gastove.topshelf.conf.schema.TheShelf
 import scala.reflect.runtime.{ universe => ru }
 import scala.reflect.ClassTag
 
@@ -16,7 +14,6 @@ abstract class BaseEntity extends KeyedEntity[Long] {
   val updated_on: Timestamp = new Timestamp(currentTimeMillis)
 }
 
-// abstract class DAO[T <: KeyedEntity[Long]](theTable: Table[T])
 abstract class DAO[T <: BaseEntity](theTable: Table[T])
   (implicit tt: ru.TypeTag[T], ct: ClassTag[T]) {
 
@@ -40,5 +37,13 @@ abstract class DAO[T <: BaseEntity](theTable: Table[T])
 
   def deleteByID(id: String) = {
     table.deleteWhere(row => row.id === id.toInt)
+  }
+
+  def create(obj: T) = {
+    table.insert(obj)
+  }
+
+  def update(id: String, obj: T) = {
+    table.update(obj)
   }
 }

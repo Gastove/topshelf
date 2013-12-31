@@ -7,27 +7,41 @@ import com.gastove.topshelf.conf.database.DatabaseSessionSupport
 import org.json4s.{DefaultFormats, Formats}
 import grizzled.slf4j.Logging
 
-// abstract class CRUDRoutes[K <: BaseEntity, T <: DAO[K]](theDAO: T) extends TopshelfStack
 abstract class CRUDRoutes[+T <: BaseEntity](ControllerDAO: DAO[T]) extends TopshelfStack
+    with MethodOverride
     with DatabaseSessionSupport
     with JacksonJsonSupport
     with Logging {
 
   protected implicit val jsonFormats: Formats = DefaultFormats
-  // lazy val ControllerDAO = theDAO
 
   before() {
     contentType = formats("json")
   }
 
+  // Get all
   get("/") {
     ControllerDAO.getAll()
   }
 
-  get("/:id") {}
+  // Get by ID
+  get("/:id") {
+    ControllerDAO.getByID(params("id"))
+  }
 
-  delete("/:id") {}
+  // Delete by ID
+  delete("/:id") {
+    ControllerDAO.deleteByID(params("id"))
+  }
 
-  post("/id") {}
+  // Add new
+  post("/") {
+    ControllerDAO.create(parsedBody.extract)
+  }
+
+  // Update by ID
+  put("/:id") {
+    ControllerDAO.update(params("id"), parsedBody.extract)
+  }
 
 }

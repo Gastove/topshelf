@@ -9,22 +9,9 @@ import org.json4s.{DefaultFormats, Formats}
 import org.squeryl.PrimitiveTypeMode._
 import grizzled.slf4j.Logging
 
-// class SpiritsServlet extends TopshelfStack
 class SpiritsServlet extends CRUDRoutes[Spirit](SpiritDAO) {
 
-  get("/all/:id") {
-    SpiritDAO.getByID(params("id"))
-  }
-
-  get("/delete/:id") {
-    SpiritDAO.deleteByID(params("id"))
-  }
-
-  get("/test") {
-    info(SpiritDAO.check)
-    SpiritDAO.check
-  }
-
+  // Utility test method
   get("/insert-test-data") {
     SpiritDAO.table.insert(List(
       Spirit("Booker's", "whiskey", 1, None),
