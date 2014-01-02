@@ -1,17 +1,31 @@
 package com.gastove.topshelf.servlets
 
 import org.scalatra._
-import org.scalatra.json._
-import com.gastove.topshelf.conf.schema.TheShelf
-import com.gastove.topshelf.conf.database.DatabaseSessionSupport
+import org.scalatra.ActionResult._
 import com.gastove.topshelf.models._
-import org.json4s.{DefaultFormats, Formats}
 import org.squeryl.PrimitiveTypeMode._
-import grizzled.slf4j.Logging
 
 class SpiritsServlet extends CRUDRoutes[Spirit](SpiritDAO) {
 
-  // Utility test method
+  // Looks like at the moment, each Servlet will need to define its own
+  // update route. That's cool.
+  put("/:id") {
+    val newInfo = parsedBody.extract[Spirit]
+    update(SpiritDAO.table)(r =>
+      where(r.id === params("id").toInt)
+        set(
+          r.name := newInfo.name,
+          r.quantity := newInfo.quantity,
+          r.producer := newInfo.producer,
+          r.spiritType := newInfo.spiritType
+        )
+    ) match {
+      case 1 => Ok()
+      case 0 => NotFound(reason = "No spirit found for ID: " + params("id"))
+    }
+  }
+
+  // Test Data
   get("/insert-test-data") {
     SpiritDAO.table.insert(List(
       Spirit("Booker's", "whiskey", 1, None),

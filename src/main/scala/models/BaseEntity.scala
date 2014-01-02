@@ -19,18 +19,10 @@ abstract class DAO[T <: BaseEntity](theTable: Table[T])
 
   def table = theTable
 
-  def check() = {
-    val m = ru.runtimeMirror(getClass.getClassLoader)
-    val reflectedClass = ru.typeOf[T].typeSymbol.asClass
-    val ctor = tt.tpe.declaration(ru.nme.CONSTRUCTOR).asMethod
-    val cm = m.reflectClass(reflectedClass)
-    val ctorm = cm.reflectConstructor(ctor)
-    ctorm("Booker's", "whiskey", 1, None)
-  }
-
   def getAll[T <: KeyedEntity[Long]]() = {
     from(table)( mod => select(mod)).toList
   }
+
   def getByID(id: String) = {
     from(table)( mod => where(mod.id === id.toInt) select(mod)).toList
   }
@@ -43,7 +35,26 @@ abstract class DAO[T <: BaseEntity](theTable: Table[T])
     table.insert(obj)
   }
 
-  def update(id: String, obj: T) = {
-    table.update(obj)
+  // def update(id: String, obj: T) = {
+  //   val spirit = getByID(id)
+  //   spirit.update(obj)
+  //   spirit
+  // }
+
+  def loadRuntimeConstructor() = {
+    // Get runtime mirror
+    val m = ru.runtimeMirror(getClass.getClassLoader)
+
+    // Get runtime class
+    val reflectedClass = ru.typeOf[T].typeSymbol.asClass
+
+    // Load type from type tag
+    val ctor = tt.tpe.declaration(ru.nme.CONSTRUCTOR).asMethod
+
+    // Get runtime class reflection from the mirror
+    val cm = m.reflectClass(reflectedClass)
+
+    // Get runtime constructor
+    cm.reflectConstructor(ctor)
   }
 }
